@@ -16,16 +16,11 @@ import 'package:http/http.dart' as http;
       throw Exception('Failed to load album');
   }
 }
-
-
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
-
 class _HomeState extends State<Home> {
 
     fetch() async {
@@ -64,3 +59,31 @@ class _HomeState extends State<Home> {
       );
     }
   }
+
+
+
+
+/*class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+            child: Column(
+              children: [
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/intro');
+                  },child: Text('Know the developer'),
+            //      icon: Icon(Icons.edit_location),
+              //    label: Text('About Me'),
+                ),
+              ],
+            )
+        ),
+    );
+
+  }
+}*/
