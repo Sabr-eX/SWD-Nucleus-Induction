@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swdnucleus/users.dart';
+import 'package:swdnucleus/posts.dart';
+import 'package:swdnucleus/albums.dart';
+import 'package:swdnucleus/details.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -18,72 +21,69 @@ import 'package:http/http.dart' as http;
 }
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
+
 class _HomeState extends State<Home> {
 
-    fetch() async {
+  fetch() async {
     users = await fetchUser();
-    }
-      @override
+    setState(() {
+      users = users;
+    });
+  }
+
+  @override
   void initState() {
     super.initState();
     fetch();
   }
 
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('User List'),
-          centerTitle: true,
-        ),
-        body: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index){
-            //final item = users[index];
-            return Card(
-              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-              child: /*Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[*/
-                  ListTile(
-                title: Text(users[index].username),
-                subtitle: Text(users[index].name),
-              ),
-              //],
-              //),
-            );
-          },
-        )
-      );
-    }
-  }
-
-
-
-
-/*class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Column(
-              children: [
-                TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      appBar: AppBar(
+        title: Text('User List'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              //final item = users[index];
+              return InkWell(
+                child: Card(
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                  child: ListTile(
+                    title: Text(users[index].username),
+                    subtitle: Text(users[index].name),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/intro');
-                  },child: Text('Know the developer'),
-            //      icon: Icon(Icons.edit_location),
-              //    label: Text('About Me'),
                 ),
-              ],
-            )
-        ),
-    );
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                      '/details', arguments: users[index].userId);
+                },
+              );
+            },
+          ),
+          ),
+          OutlinedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/intro');
+            },
+            child: Text('Know the developer'),
+          ),
 
+        ],
+      ),
+    );
   }
-}*/
+  }
