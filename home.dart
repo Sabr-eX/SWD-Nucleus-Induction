@@ -40,95 +40,27 @@ class _HomeState extends State<Home> {
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('App'),
-
+          title: Text('User List'),
+          centerTitle: true,
         ),
+        body: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (context, index){
+            //final item = users[index];
+            return Card(
+              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+              child: /*Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[*/
+                  ListTile(
+                title: Text(users[index].username),
+                subtitle: Text(users[index].name),
+              ),
+              //],
+              //),
+            );
+          },
+        )
       );
     }
   }
-
-
-
-/*class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: Column(
-              children: [
-                TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/intro');
-                  },child: Text('Know the developer'),
-            //      icon: Icon(Icons.edit_location),
-              //    label: Text('About Me'),
-                ),
-              ],
-            )
-        ),
-    );
-
-  }
-}*/
-
-
-
-
-
-
-
-
-
-
-/*class UserList extends StatefulWidget {
-  const UserList({Key? key}) : super(key: key);
-
-  @override
-  State<UserList> createState() => _UserListState();
-}
-
-class _UserListState extends State<UserList> {
-  Future<List<User>> usersFuture = getUsers();
-
-  static Future<List<User>> getUsers() async {
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
-
-    final body = jsonDecode(response.body);
-    return body.map<User>(User.fromJson).toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('List of Users'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: FutureBuilder<List<User>>(
-          future: usersFuture,
-          builder: (context, snapshot) {
-            return buildUsers(users);
-          },
-        ),
-      ),
-    );
-
-    Widget buildUsers(List<User> users) => ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (context, i) {
-        final user = users[i];
-
-        return Card(
-          child: Container(
-            child: Text('${User[i].name}'),
-          ),
-        );
-      },
-    );
-  }
-}*/
-
