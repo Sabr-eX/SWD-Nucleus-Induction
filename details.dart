@@ -8,6 +8,9 @@ import 'dart:convert';
 List<Post> posts = [];
 List<Album> albums = [];
 
+List<Post> userPosts = [];
+List<Album> userAlbums = [];
+
 Future<List<Post>> fetchPost() async {
   final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
   if (response.statusCode == 200) {
@@ -56,14 +59,72 @@ class _DetailsState extends State<Details> {
     fetch1();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
+    final todo = ModalRoute.of(context)!.settings.arguments;
+    List<Post> userPosts = posts.where((posts) => posts.userId == todo).toList();
+    List<Album> userAlbums = albums.where((albums) => albums.userId == todo).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details, Posts & Albums'),
+        title: Text('Posts & Albums'),
         centerTitle: true,
       ),
-      
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+      child: ListView.builder(
+        itemCount: userPosts.length,
+        itemBuilder: (context, index){
+          return Column(
+            children: <Widget>[
+              Card(
+                child: Column(
+                  children: <Widget>[
+                    Text('Post${index + 1}'),
+                    ListTile(
+                      title: Text(userPosts[index].title),
+                      subtitle: Text(userPosts[index].body),
+          ),
+                    SizedBox(height: 10.0),
+          ],
+          ),
+          ),
+            ],
+          );
+        },
+      ),
+          ),
+            Divider(
+              height: 30.0,
+              color: Colors.red,
+            ),
+            Expanded(
+            child: ListView.builder(
+            itemCount: userAlbums.length,
+            itemBuilder: (context, index){
+              return Column(
+                children: <Widget>[
+                  Card(
+                    child: Column(
+                      children: <Widget>[
+                        Text('Album${index + 1}'),
+                        ListTile(
+                          title: Text(userAlbums[index].title),
+                        ),
+                        SizedBox(height: 10.0),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+            ),
+
+        ],
+    ),
     );
   }
 }
